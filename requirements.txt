@@ -1,0 +1,5 @@
+numpy~=1.20.2
+requests~=2.25.1
+pandas~=1.2.4
+streamlit~=0.81.0
+playfab~=0.0.201014
