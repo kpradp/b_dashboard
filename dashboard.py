@@ -1,57 +1,92 @@
-import numpy as np
 import requests
-import os
-import json
 import pandas as pd
 import streamlit as st
-from datetime import date
 import playfab
 
-st.set_page_config(page_title="B Dashboard", layout='wide', initial_sidebar_state='collapsed')
-st.markdown('# B Dashboard sample')
-st.text(" \n\n")  # break line
-
-"""
-# My first app
-Here's our first attempt at using data to create a table:
-"""
-date = st.date_input('Select a date')
-print(date)
-st.write(date)
-
-chart_data = pd.DataFrame(
-	np.random.randn(20, 3),
-	columns=['a', 'b', 'c'])
-
-st.line_chart(chart_data)
+months = (
+    'Select Month',
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr'
+)
 
 data_report_url_from_server = None
 playfab.PlayFabSettings.TitleId = "1d015"
 playfab.PlayFabSettings.DeveloperSecretKey = "Y5TDEU3YJRYEOAIIPFON16OAS75WEOAXQXRSCGTSRFFMR6PKC4"
 
-report_data = {
-	"Day": "03",
-	"Month": "05",
-	"ReportName": "Daily Totals Report",
-	"Year": "2021"
-
-}
-
 
 def cb(success, failure):
-	if success or success == {}:
-		# print(success['DownloadUrl'])
-		global data_report_url_from_server
-		data_report_url_from_server = success['DownloadUrl']
-		print(data_report_url_from_server)
-	# handle success
-	else:
-		print(failure)
+    if success or success == {}:
+        # print(success['DownloadUrl'])
+        global data_report_url_from_server
+        data_report_url_from_server = success['DownloadUrl']
+        print(data_report_url_from_server)
+    # handle success
+    else:
+        print(failure)
 
 
-report_response = playfab.PlayFabAdminAPI.GetDataReport(request=report_data, callback=cb)
+st.set_page_config(page_title="Beyond Dashboard", layout='wide', initial_sidebar_state='collapsed')
+st.markdown('# Beyond Dashboard ')
+st.text(" \n\n")  # break line
+st.markdown('# Monthly Report ')
 
-# print(data_report_url_from_server)
-response_csv = requests.get(data_report_url_from_server)
-print(response_csv.content)
-open('report.csv', 'wb').write(response_csv.content)
+""" 
+Sample beyond dashboard using py
+"""
+
+left_column_1, right_column_1 = st.beta_columns(2)
+
+with left_column_1:
+    # s_date = st.date_input('select a date')
+    st.text(" \n\n")
+    selected_month = st.selectbox("Select month", options=months)
+    # st.write(months.index(selected_month))
+    st.text(" \n\n")  # break line
+    if (months.index(selected_month) != 0):
+        st.write(f'selected month is = {selected_month} ')
+        st.write(f'contacting server ')
+    # s_month = st.selectbox('select month', options={})
+
+report_data = {
+    "Day": "01",
+    "Month": str(months.index(selected_month)),
+    "ReportName": "Monthly Overview Report",
+    "Year": "2021"
+}
+
+# st.write(report_data)
+with right_column_1:
+    st.file_uploader('File uploader')
+    # if (months.index(selected_month) != 0):
+    #     st.write(f'selected month is = {selected_month} ')
+    #     st.write(f'contacting server ')
+try:
+
+    report_response = playfab.PlayFabAdminAPI.GetDataReport(request=report_data, callback=cb)
+    # print(data_report_url_from_server)
+    response_csv = requests.get(data_report_url_from_server)
+
+    # st.write(response_csv.content)
+    open('report.csv', 'wb').write(response_csv.content)
+    df = pd.read_csv("report.csv")
+    formating = df.iloc[:, [2, 3, 7, 8]]
+    st.text(" \n\n")  # break line
+
+    st.dataframe(formating)
+    st.line_chart(df['Total Logins'])
+    st.text(" \n\n")  # break line
+    st.line_chart(df['Unique Logins'])
+    st.text(" \n\n")  # break line
+
+    chart_data = df['Total Logins']
+    st.bar_chart(chart_data)
+    st.text(" \n\n")  # break line
+    st.table(formating)
+
+
+except:
+    pass
+
+
