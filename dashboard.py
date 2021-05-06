@@ -20,8 +20,8 @@ playfab.PlayFabSettings.DeveloperSecretKey = "Y5TDEU3YJRYEOAIIPFON16OAS75WEOAXQX
 
 st.set_page_config(page_title="Beyond Dashboard", layout='wide', initial_sidebar_state='collapsed')
 st.markdown('# Beyond Dashboard ')
-st.text(" \n\n")  # break line
-st.markdown('# Monthly Report ')
+st.text(' \n\n')  # break line
+st.markdown('# Monthly Report sample ')
 df = pd.DataFrame(
 	np.random.randn(200, 3),
 	columns=['a', 'b', 'c'])
