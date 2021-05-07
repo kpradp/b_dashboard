@@ -19,9 +19,37 @@ playfab.PlayFabSettings.TitleId = "1d015"
 playfab.PlayFabSettings.DeveloperSecretKey = "Y5TDEU3YJRYEOAIIPFON16OAS75WEOAXQXRSCGTSRFFMR6PKC4"
 
 st.set_page_config(page_title="Beyond Dashboard", layout='wide', initial_sidebar_state='collapsed')
+
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+           
+            </style>
+            """	
+
+# footer {
+# 	visibility: hidden;
+#
+# }
+# footer:after {
+# 	content:'goodbye';
+# visibility: visible;
+# display: block;
+# position: relative;
+# #background-color: red;
+# padding: 5px;
+# top: 2px;
+# }
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 st.markdown('# B Dashboard ')
 st.text(' \n\n')  # break line
 st.markdown('# Monthly Report sample ')
+
+
+
+
 df = pd.DataFrame(
 	np.random.randn(200, 3),
 	columns=['a', 'b', 'c'])
