@@ -4,7 +4,8 @@ import requests
 import pandas as pd
 import streamlit as st
 import playfab
-import altair as alt
+
+
 
 months = (
 	'Select Month',
@@ -48,6 +49,8 @@ st.markdown('# Monthly Report sample ')
 st.write(""" 
 	Sample beyond dashboard using py
 """)
+
+
 
 
 def cb(success, failure):
@@ -96,7 +99,7 @@ def main():
 		st.text(" \n\n")  # break line
 		chart_data = response_data['Total Logins']
 		st.bar_chart(chart_data)
-		
+
 		st.text(" \n\n")  # break line
 		st.table(selected_df)
 
