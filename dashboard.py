@@ -102,7 +102,8 @@ def main():
         st.bar_chart(chart_data)
         st.area_chart(chart_data)
         st.text(" \n\n")  # break line
-        st.table(selected_df)
+        # st.table(selected_df)
+        # st.dataframe(selected_df)
 
     with right_column_1:
         st.file_uploader('File uploader')
